@@ -14,7 +14,6 @@ import importlib.util
 import inspect
 import itertools
 import os
-import os.path
 import random
 import re
 import shutil
@@ -1042,7 +1041,7 @@ class Repo:
 
                 return yaml_data["repo"]
 
-        except IOError:
+        except OSError:
             tty.die(f"Error reading {self.config_file} when opening {self.root}")
 
     def get(self, spec: "spack.spec.Spec") -> "spack.package_base.PackageBase":
@@ -1180,8 +1179,9 @@ class Repo:
             yield self.package_path(name)
 
     def packages_with_tags(self, *tags: str) -> Set[str]:
-        v = set(self.all_package_names())
-        v.intersection_update(*(self.tag_index[tag.lower()] for tag in tags))
+        v = set(self.tag_index[tags[0].lower()])
+        for tag in tags[1:]:
+            v.intersection_update(self.tag_index[tag.lower()])
         return v
 
     def all_package_classes(self) -> Generator[Type["spack.package_base.PackageBase"], None, None]:
@@ -1370,7 +1370,7 @@ def create_repo(root, namespace=None, subdir=packages_dir_name):
             if subdir != packages_dir_name:
                 config.write(f"  subdirectory: '{subdir}'\n")
 
-    except (IOError, OSError) as e:
+    except OSError as e:
         # try to clean up.
         if existed:
             shutil.rmtree(config_path, ignore_errors=True)

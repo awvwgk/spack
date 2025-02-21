@@ -706,7 +706,7 @@ _spack_ci_rebuild() {
 _spack_ci_reproduce_build() {
     if $list_options
     then
-        SPACK_COMPREPLY="-h --help --runtime --working-dir -s --autostart --gpg-file --gpg-url"
+        SPACK_COMPREPLY="-h --help --runtime --working-dir -s --autostart --use-local-head --gpg-file --gpg-url"
     else
         SPACK_COMPREPLY=""
     fi
@@ -929,12 +929,8 @@ _spack_debug() {
     then
         SPACK_COMPREPLY="-h --help"
     else
-        SPACK_COMPREPLY="create-db-tarball report"
+        SPACK_COMPREPLY="report"
     fi
-}
-
-_spack_debug_create_db_tarball() {
-    SPACK_COMPREPLY="-h --help"
 }
 
 _spack_debug_report() {

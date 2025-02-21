@@ -506,9 +506,9 @@ complete -c spack -n '__fish_spack_using_command arch' -s o -l operating-system 
 complete -c spack -n '__fish_spack_using_command arch' -s t -l target -f -a target
 complete -c spack -n '__fish_spack_using_command arch' -s t -l target -d 'print only the target'
 complete -c spack -n '__fish_spack_using_command arch' -s f -l frontend -f -a frontend
-complete -c spack -n '__fish_spack_using_command arch' -s f -l frontend -d 'print frontend'
+complete -c spack -n '__fish_spack_using_command arch' -s f -l frontend -d 'print frontend (DEPRECATED)'
 complete -c spack -n '__fish_spack_using_command arch' -s b -l backend -f -a backend
-complete -c spack -n '__fish_spack_using_command arch' -s b -l backend -d 'print backend'
+complete -c spack -n '__fish_spack_using_command arch' -s b -l backend -d 'print backend (DEPRECATED)'
 
 # spack audit
 set -g __fish_spack_optspecs_spack_audit h/help
@@ -999,7 +999,7 @@ complete -c spack -n '__fish_spack_using_command ci rebuild' -s j -l jobs -r -f 
 complete -c spack -n '__fish_spack_using_command ci rebuild' -s j -l jobs -r -d 'explicitly set number of parallel jobs'
 
 # spack ci reproduce-build
-set -g __fish_spack_optspecs_spack_ci_reproduce_build h/help runtime= working-dir= s/autostart gpg-file= gpg-url=
+set -g __fish_spack_optspecs_spack_ci_reproduce_build h/help runtime= working-dir= s/autostart use-local-head gpg-file= gpg-url=
 complete -c spack -n '__fish_spack_using_command_pos 0 ci reproduce-build' -f
 complete -c spack -n '__fish_spack_using_command ci reproduce-build' -s h -l help -f -a help
 complete -c spack -n '__fish_spack_using_command ci reproduce-build' -s h -l help -d 'show this help message and exit'
@@ -1009,6 +1009,8 @@ complete -c spack -n '__fish_spack_using_command ci reproduce-build' -l working-
 complete -c spack -n '__fish_spack_using_command ci reproduce-build' -l working-dir -r -d 'where to unpack artifacts'
 complete -c spack -n '__fish_spack_using_command ci reproduce-build' -s s -l autostart -f -a autostart
 complete -c spack -n '__fish_spack_using_command ci reproduce-build' -s s -l autostart -d 'Run docker reproducer automatically'
+complete -c spack -n '__fish_spack_using_command ci reproduce-build' -l use-local-head -f -a use_local_head
+complete -c spack -n '__fish_spack_using_command ci reproduce-build' -l use-local-head -d 'Use the HEAD of the local Spack instead of reproducing a commit'
 complete -c spack -n '__fish_spack_using_command ci reproduce-build' -l gpg-file -r -f -a gpg_file
 complete -c spack -n '__fish_spack_using_command ci reproduce-build' -l gpg-file -r -d 'Path to public GPG key for validating binary cache installs'
 complete -c spack -n '__fish_spack_using_command ci reproduce-build' -l gpg-url -r -f -a gpg_url
@@ -1201,19 +1203,19 @@ complete -c spack -n '__fish_spack_using_command config' -l scope -r -d 'configu
 
 # spack config get
 set -g __fish_spack_optspecs_spack_config_get h/help
-complete -c spack -n '__fish_spack_using_command_pos 0 config get' -f -a 'bootstrap cdash ci compilers concretizer config definitions develop mirrors modules packages repos upstreams view'
+complete -c spack -n '__fish_spack_using_command_pos 0 config get' -f -a 'bootstrap cdash ci compilers concretizer config definitions develop env_vars mirrors modules packages repos upstreams view'
 complete -c spack -n '__fish_spack_using_command config get' -s h -l help -f -a help
 complete -c spack -n '__fish_spack_using_command config get' -s h -l help -d 'show this help message and exit'
 
 # spack config blame
 set -g __fish_spack_optspecs_spack_config_blame h/help
-complete -c spack -n '__fish_spack_using_command_pos 0 config blame' -f -a 'bootstrap cdash ci compilers concretizer config definitions develop mirrors modules packages repos upstreams view'
+complete -c spack -n '__fish_spack_using_command_pos 0 config blame' -f -a 'bootstrap cdash ci compilers concretizer config definitions develop env_vars mirrors modules packages repos upstreams view'
 complete -c spack -n '__fish_spack_using_command config blame' -s h -l help -f -a help
 complete -c spack -n '__fish_spack_using_command config blame' -s h -l help -d 'show this help message and exit'
 
 # spack config edit
 set -g __fish_spack_optspecs_spack_config_edit h/help print-file
-complete -c spack -n '__fish_spack_using_command_pos 0 config edit' -f -a 'bootstrap cdash ci compilers concretizer config definitions develop mirrors modules packages repos upstreams view'
+complete -c spack -n '__fish_spack_using_command_pos 0 config edit' -f -a 'bootstrap cdash ci compilers concretizer config definitions develop env_vars mirrors modules packages repos upstreams view'
 complete -c spack -n '__fish_spack_using_command config edit' -s h -l help -f -a help
 complete -c spack -n '__fish_spack_using_command config edit' -s h -l help -d 'show this help message and exit'
 complete -c spack -n '__fish_spack_using_command config edit' -l print-file -f -a print_file
@@ -1317,15 +1319,9 @@ complete -c spack -n '__fish_spack_using_command create' -s b -l batch -d 'don'"
 
 # spack debug
 set -g __fish_spack_optspecs_spack_debug h/help
-complete -c spack -n '__fish_spack_using_command_pos 0 debug' -f -a create-db-tarball -d 'create a tarball of Spack'"'"'s installation metadata'
 complete -c spack -n '__fish_spack_using_command_pos 0 debug' -f -a report -d 'print information useful for bug reports'
 complete -c spack -n '__fish_spack_using_command debug' -s h -l help -f -a help
 complete -c spack -n '__fish_spack_using_command debug' -s h -l help -d 'show this help message and exit'
-
-# spack debug create-db-tarball
-set -g __fish_spack_optspecs_spack_debug_create_db_tarball h/help
-complete -c spack -n '__fish_spack_using_command debug create-db-tarball' -s h -l help -f -a help
-complete -c spack -n '__fish_spack_using_command debug create-db-tarball' -s h -l help -d 'show this help message and exit'
 
 # spack debug report
 set -g __fish_spack_optspecs_spack_debug_report h/help
